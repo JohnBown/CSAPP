@@ -5,6 +5,6 @@
 
 加速比 = 未采用升级时的执行时间 / 采用升级时的执行时间 -->
 
-![t_new](../src/t_new.svg)
+![t_new](../src/ch1/t_new.svg)
 
-![Amdahl's law](../src/amdahl.svg)
+![Amdahl's law](../src/ch1/amdahl.svg)
