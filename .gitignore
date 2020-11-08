@@ -3,3 +3,4 @@
 .gitignore
 code/*
 main.c
+*.DS_Store
