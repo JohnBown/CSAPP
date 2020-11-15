@@ -128,7 +128,7 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
 ![B2T](src/ch2/B2T.svg)
 
 <table>
-    <tr>
+    <tr align="center">
         <td rowspan="2">数</td>
         <td colspan="4">字长w</td>
     </tr>
@@ -166,6 +166,7 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
         <td>0xFFFF FFFF<br>0x0000 0000</td>
         <td>0xFFFF FFFF FFFF FFFF<br>0x0000 0000 0000 0000</td>
     </tr>
+
 </table>
 
 ### 转换
