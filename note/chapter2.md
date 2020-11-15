@@ -132,11 +132,11 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
         <td rowspan="2">数</td>
         <td colspan="4">字长w</td>
     </tr>
-    <tr>
+    <tr align="center">
         <td>8</td>
         <td>16</td>
         <td>32</td>
-        <td><div align="center">64</div></td>
+        <td>64</td>
     </tr>
     <tr>
         <td>UMax</td>
