@@ -136,7 +136,7 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
         <td>8</td>
         <td>16</td>
         <td>32</td>
-        <td><center>64</center></td>
+        <td><p align="center">64</p></td>
     </tr>
     <tr>
         <td>UMax</td>
