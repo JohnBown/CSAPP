@@ -227,8 +227,6 @@ int tu = (int) u;
 
 <!-- ![t2u](src/ch2/t2u.pdf) -->
 
-<image src="src/ch2/t2u.pdf"/>
-
 <embed src="src/ch2/t2u.pdf" type="application/pdf">
 
 <object data="src/ch2/t2u.pdf" type="application/pdf" width="100%"> 
