@@ -204,4 +204,39 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
 
 ### 转换
 
+对于大多数 C 语言的实现，处理**同样字长**的有符号数和无符号数之间的转换的一般规则是：数值可能会改变，但是位模式不变。
+
+```C
+short int v = -12345;
+unsigned short uv = (unsigned short) v;
+
+> v = -12345, uv = 53191
+```
+
+```C
+unsigned u = 4294967295u;
+int tu = (int) u;
+
+> u = 4294967295, tu = -1
+```
+
+**补码转换为无符号数**
+
+对于满足 ![TMin_x_TMax](src/ch2/TMin_x_TMax.svg)的`x`有：
+![T2U](src/ch2/T2U.svg)
+
+<!-- ![t2u](src/ch2/t2u.pdf) -->
+
+<image src="src/ch2/t2u.pdf"/>
+
+<embed src="src/ch2/t2u.pdf" type="application/pdf">
+
+<object data="src/ch2/t2u.pdf" type="application/pdf" width="100%"> 
+</object>
+
+**无符号数转换为补码**
+
+对于满足 ![zero_u_Umax](src/ch2/zero_u_UMax.svg)的`u`有：  
+![U2T](src/ch2/U2T.svg)
+
 ### 扩展与截断
