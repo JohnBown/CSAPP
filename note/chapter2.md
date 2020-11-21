@@ -171,13 +171,13 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
 
 </table>
 
-**Tips：**
-
-- `UMin=0`即`000...0`
-- `UMax=2ʷ-1`即`111...1`
-- `TMin=-2ʷ⁻¹`即`100...0`
-- `TMax=2ʷ⁻¹-1`即`011...1`
-- `-1`即`111...1`
+> **Tips**
+>
+> - `UMin=0`即`000...0`
+> - `UMax=2ʷ-1`即`111...1`
+> - `TMin=-2ʷ⁻¹`即`100...0`
+> - `TMax=2ʷ⁻¹-1`即`011...1`
+> - `-1`即`111...1`
 
 自然可得：`|TMin| = |TMax| + 1`以及`|UMax| = 2|Max| + 1`
 
@@ -193,7 +193,7 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
 
 ![B2S](src/ch2/B2S.svg)
 
-> 考虑反码表示 0 的情况  
+> **推导** 考虑反码表示 0 的情况  
 > ![proof_1/eq1_1](src/ch2/proof_1/eq1_1.svg)  
 > **a)** 当 ![aa](src/ch2/proof_1/x.svg) 等于 0：  
 > ![proof_1/eq1_2](src/ch2/proof_1/eq1_2.svg)  
@@ -224,6 +224,14 @@ int tu = (int) u;
 | :-------------------------------------: | :-------------------------------------: |
 | ![TMin_x_TMax](src/ch2/TMin_x_TMax.svg) | ![zero_u_Umax](src/ch2/zero_u_UMax.svg) |
 |         ![T2U](src/ch2/T2U.svg)         |         ![U2T](src/ch2/U2T.svg)         |
-|          ![](src/ch2/t2u.svg)           |          ![](src/ch2/u2t.svg)           |
+|         ![t2u](src/ch2/t2u.svg)         |         ![u2t](src/ch2/u2t.svg)         |
+
+> **推导**  
+> ![proof_2/eq2_1](src/ch2/proof_2/eq2_1.svg)  
+> **a)** 补码转换无符号数  
+> ![proof_2/eq2_2](src/ch2/proof_2/eq2_2.svg)  
+> **b)** 无符号数转换补码  
+> 设 ![proof_2/eq2_3](src/ch2/proof_2/eq2_3.svg)  
+> ![proof_2/eq2_4](src/ch2/proof_2/eq2_4.svg)
 
 ### 扩展与截断
