@@ -222,15 +222,10 @@ int tu = (int) u;
 
 **补码转换为无符号数**
 
-对于满足 ![TMin_x_TMax](src/ch2/TMin_x_TMax.svg)的`x`有：
+对于满足 ![TMin_x_TMax](src/ch2/TMin_x_TMax.svg)的`x`有：  
 ![T2U](src/ch2/T2U.svg)
 
-<!-- ![t2u](src/ch2/t2u.pdf) -->
-
-<embed src="src/ch2/t2u.pdf" type="application/pdf">
-
-<object data="src/ch2/t2u.pdf" type="application/pdf" width="100%"> 
-</object>
+![t2u](src/ch2/t2u.svg)
 
 **无符号数转换为补码**
 
