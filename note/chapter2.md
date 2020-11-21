@@ -220,21 +220,10 @@ int tu = (int) u;
 > u = 4294967295, tu = -1
 ```
 
-**补码转换为无符号数**
-
-对于满足 ![TMin_x_TMax](src/ch2/TMin_x_TMax.svg)的`x`有：  
-![T2U](src/ch2/T2U.svg)
-
-**无符号数转换为补码**
-
-对于满足 ![zero_u_Umax](src/ch2/zero_u_UMax.svg)的`u`有：  
-![U2T](src/ch2/U2T.svg)
-
-![t2u](src/ch2/t2u.svg)![u2t](src/ch2/u2t.svg)
-
-|     Solarized dark      |     Solarized Ocean     |
-| :---------------------: | :---------------------: |
-| ![T2U](src/ch2/T2U.svg) | ![U2T](src/ch2/U2T.svg) |
-|  ![](src/ch2/t2u.svg)   |  ![](src/ch2/u2t.svg)   |
+|           补码转换为无符号数            |           无符号数转换为补码            |
+| :-------------------------------------: | :-------------------------------------: |
+| ![TMin_x_TMax](src/ch2/TMin_x_TMax.svg) | ![zero_u_Umax](src/ch2/zero_u_UMax.svg) |
+|         ![T2U](src/ch2/T2U.svg)         |         ![U2T](src/ch2/U2T.svg)         |
+|          ![](src/ch2/t2u.svg)           |          ![](src/ch2/u2t.svg)           |
 
 ### 扩展与截断
