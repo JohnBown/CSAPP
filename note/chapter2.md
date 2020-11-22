@@ -326,7 +326,7 @@ unsigned ux = usx;
 ```
 
 > 推导  
-> ![proof_3/eq3_1](src/ch2/proof_3/eq3_1.svg)
+> ![proof_3/eq3_1](src/ch2/proof_3/eq3_1.svg)  
 > 较为简单，略
 
 C 语言标准要求，把`short`转换成`unsigned`，要**先改变大小，再从有符号到无符号**进行转换。也就是说`(unsigned) sx`等价于`(unsigned) (int) sx`。而非`(unsigned) (unsigned short) sx`。
