@@ -304,3 +304,58 @@ printf("u = %u = %d\n", u, u);
 ```
 
 ### 扩展与截断
+
+**无符号数的零扩展（Zero Extension）** 要将一个无符号数转换为一个更大的数据类型，只要简单地在表示的开头添加 0。
+
+![zero_extension](src/ch2/zero_ext.svg)
+
+**补码数的符号扩展（Sign Extension）** 要将一个补码数字转换为一个更大的数据类型，要在表示中添加最高有效位的值。
+
+![sign_extension](src/ch2/sign_ext.svg)
+
+```C
+short sx = -12345;
+unsigned short usx = sx;
+int x = sx;
+unsigned ux = usx;
+
+> sx = -12345: cf c7
+> usx = 53191: cf c7
+> x = -12345: ff ff cf c7
+> ux = 53191: 00 00 cf c7
+```
+
+> 推导  
+> ![proof_3/eq3_1](src/ch2/proof_3/eq3_1.svg)
+> 较为简单，略
+
+C 语言标准要求，把`short`转换成`unsigned`，要**先改变大小，再从有符号到无符号**进行转换。也就是说`(unsigned) sx`等价于`(unsigned) (int) sx`。而非`(unsigned) (unsigned short) sx`。
+
+```C
+short sx = -12345;
+unsigned uy = sx;
+
+> uy = 4294954951:  ff ff cf c7 ✔
+> uy = 53191:       00 00 cf c7 ✘
+```
+
+**练习题 2.23** 根据 C 函数填表
+
+```C
+int fun1(unsigned word){
+    return (int) ((word << 24) >> 24);
+}
+
+int fun2(unsigned word){
+    return ((int) word << 24) >> 24;
+}
+```
+
+> |     w      |  fun1(w)   |  fun2(w)   |
+> | :--------: | :--------: | :--------: |
+> | 0x00000076 | 0x00000076 | 0x00000076 |
+> | 0x87654321 | 0x00000021 | 0x00000021 |
+> | 0x000000C9 | 0x000000C9 | 0xFFFFFFC9 |
+> | 0xEDCBA987 | 0x00000087 | 0xFFFFFF87 |
+>
+> **思路** `fun1()`位移是在无符号数上进行的，所以执行的是逻辑右移，`fun2()`位移是在带符号数上进行的，所以执行的是算术右移。两函数都是从低 8 位提取数，但区别是`fun2()`还要进行符号位扩展。
