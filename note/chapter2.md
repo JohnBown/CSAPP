@@ -362,10 +362,10 @@ int fun2(unsigned word){
 
 **截断**
 
-无符号数的截断
+无符号数的截断：  
 ![unsigned_truncating](src/ch2/unsign_trunc.svg)
 
-补码数字的截断
+补码数字的截断：  
 ![signed_truncating](src/ch2/sign_trunc.svg)
 
 ```C
@@ -380,3 +380,10 @@ int y = sx;             /* -12345 */
 
 > **推导**  
 > ![eq4_1.svg](src/ch2/proof_4/eq4_1.svg)
+
+## 整数运算
+
+**无符号数加法** 对满足`0 ≦ x,y < 2ʷ`的`x`和`y`有：  
+![unsigned_addition](src/ch2/unsign_add.svg)
+
+![uadd_ovf](src/ch2/uadd_ovf.svg)
