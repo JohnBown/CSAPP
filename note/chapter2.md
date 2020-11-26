@@ -121,13 +121,9 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
 
 假设数据类型有`w`位，可将其写做向量的形式，记向量 ![vec_x](src/ch2/vec_x.svg)，在不同编码中，每个位取值 0 或 1。
 
-**无符号数编码**
-
-![B2U](src/ch2/B2U.svg)
-
-**补码（Two's Complement）**
-
-![B2T](src/ch2/B2T.svg)
+|      无符号数编码       | 补码（Two's Complement） |
+| :---------------------: | :----------------------: |
+| ![B2U](src/ch2/B2U.svg) | ![B2T](src/ch2/B2T.svg)  |
 
 <table>
     <tr align="center">
@@ -185,13 +181,9 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
 
 #### 有符号数其他表示
 
-**反码（Ones' Complement）**
-
-![B2O](src/ch2/B2O.svg)
-
-**原码（Sign-Magnitude）**
-
-![B2S](src/ch2/B2S.svg)
+| 反码（Ones' Complement） | 原码（Sign-Magnitude）  |
+| :----------------------: | :---------------------: |
+| ![B2O](src/ch2/B2O.svg)  | ![B2S](src/ch2/B2S.svg) |
 
 > **推导** 考虑反码表示 0 的情况  
 > ![proof_1/eq1_1](src/ch2/proof_1/eq1_1.svg)  
@@ -386,4 +378,8 @@ int y = sx;             /* -12345 */
 **无符号数加法** 对满足`0 ≦ x,y < 2ʷ`的`x`和`y`有：  
 ![unsigned_addition](src/ch2/unsign_add.svg)
 
-![uadd_ovf](src/ch2/uadd_ovf.svg)
+<!-- ![uadd_ovf](src/ch2/uadd_ovf.svg) -->
+
+| ![uadd_ovf](src/ch2/uadd_ovf.svg) |
+| :-------------------------------: |
+|   整数加法和无符号加法间的关系    |
