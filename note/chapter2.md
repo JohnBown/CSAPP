@@ -186,11 +186,11 @@ C 语言提供了一组逻辑运算`||`、`&&`和`!`，分别对应命题逻辑�
 | ![B2O](src/ch2/B2O.svg)  | ![B2S](src/ch2/B2S.svg) |
 
 > **推导** 考虑反码表示 0 的情况  
-> ![proof_1/eq1_1](src/ch2/proof_1/eq1_1.svg)  
-> **a)** 当 ![aa](src/ch2/proof_1/x.svg) 等于 0：  
-> ![proof_1/eq1_2](src/ch2/proof_1/eq1_2.svg)  
-> **b)** 当 ![aa](src/ch2/proof_1/x.svg) 等于 1：  
-> ![proof_1/eq1_3](src/ch2/proof_1/eq1_3.svg)
+> ![proof_1/eq1_1](src/ch2/pof_1/eq1_1.svg)  
+> **a)** 当 ![aa](src/ch2/pof_1/x.svg) 等于 0：  
+> ![proof_1/eq1_2](src/ch2/pof_1/eq1_2.svg)  
+> **b)** 当 ![aa](src/ch2/pof_1/x.svg) 等于 1：  
+> ![proof_1/eq1_3](src/ch2/pof_1/eq1_3.svg)
 
 所以，利用反码对 0 进行编码具有两种不同的形式（`[0,0,0,...,0]`和`[1,1,1,...,1]`）。同理不难推出，利用原码对 0 进行编码，也具有两种不同对形式（`0,0,0,...,0`和`1,0,0,...,0`），这也是体现补码优越的地方。
 
@@ -219,12 +219,12 @@ int tu = (int) u;
 |         ![t2u](src/ch2/t2u.svg)         |         ![u2t](src/ch2/u2t.svg)         |
 
 > **推导**  
-> ![proof_2/eq2_1](src/ch2/proof_2/eq2_1.svg)  
+> ![proof_2/eq2_1](src/ch2/pof_2/eq2_1.svg)  
 > **a)** 补码转换无符号数  
-> ![proof_2/eq2_2](src/ch2/proof_2/eq2_2.svg)  
+> ![proof_2/eq2_2](src/ch2/pof_2/eq2_2.svg)  
 > **b)** 无符号数转换补码  
-> 设 ![proof_2/eq2_3](src/ch2/proof_2/eq2_3.svg)  
-> ![proof_2/eq2_4](src/ch2/proof_2/eq2_4.svg)
+> 设 ![proof_2/eq2_3](src/ch2/pof_2/eq2_3.svg)  
+> ![proof_2/eq2_4](src/ch2/pof_2/eq2_4.svg)
 
 #### 转换发生情况
 
@@ -318,7 +318,7 @@ unsigned ux = usx;
 ```
 
 > 推导  
-> ![proof_3/eq3_1](src/ch2/proof_3/eq3_1.svg)  
+> ![proof_3/eq3_1](src/ch2/pof_3/eq3_1.svg)  
 > 较为简单，略
 
 C 语言标准要求，把`short`转换成`unsigned`，要**先改变大小，再从有符号到无符号**进行转换。也就是说`(unsigned) sx`等价于`(unsigned) (int) sx`。而非`(unsigned) (unsigned short) sx`。
@@ -371,15 +371,36 @@ int y = sx;             /* -12345 */
 ```
 
 > **推导**  
-> ![eq4_1.svg](src/ch2/proof_4/eq4_1.svg)
+> ![eq4_1.svg](src/ch2/pof_4/eq4_1.svg)
 
 ## 整数运算
 
 ### 整数加法运算
 
-|                             | 无符号加法                                           | 补码加法                                                                                                                                                           |
-| :-------------------------: | :--------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|      对满足的`x`和`y`       | `0 ≦ x,y < 2ʷ`                                       | `-2ʷ⁻¹ ≦ x,y < 2ʷ⁻¹-1`                                                                                                                                             |
-|            公式             | ![unsigned_addition](src/ch2/unsign_add.svg)         | ![signed_addition](src/ch2/sign_add.svg)                                                                                                                           |
-|           关系图            | ![uadd_ovf](src/ch2/uadd_ovf.svg)                    | ![tadd_ovf](src/ch2/tadd-ovf.svg)                                                                                                                                  |
-| 加法溢出检测，令`s = x+y`。 | 当且仅当`s < x`（或者等价地`s < y`）时，发生了溢出。 | 当且仅当`x > 0, y > 0`，但`s ≦ 0`时，计算`s`发生了正溢出（positive overflow）。<br>当且仅当`x < 0, y < 0`，但`s ≧ 0`时，计算`s`发生了负溢出（negative overflow）。 |
+|                                 | 无符号加法                                           | 补码加法                                                                                                                                                           |
+| :-----------------------------: | :--------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|        对满足的`x`和`y`         | `0 ≦ x,y < 2ʷ`                                       | `-2ʷ⁻¹ ≦ x,y < 2ʷ⁻¹-1`                                                                                                                                             |
+|              公式               | ![unsigned_addition](src/ch2/unsign_add.svg)         | ![signed_addition](src/ch2/sign_add.svg)                                                                                                                           |
+|             关系图              | ![uadd_ovf](src/ch2/uadd_ovf.svg)                    | ![tadd_ovf](src/ch2/tadd-ovf.svg)                                                                                                                                  |
+| 加法溢出检测，<br>令`s = x+y`。 | 当且仅当`s < x`（或者等价地`s < y`）时，发生了溢出。 | 当且仅当`x > 0, y > 0`，但`s ≦ 0`时，计算`s`发生了正溢出（positive overflow）。<br>当且仅当`x < 0, y < 0`，但`s ≧ 0`时，计算`s`发生了负溢出（negative overflow）。 |
+
+**练习题 2.27** 写出如下原型函数：
+
+```C
+/* Determine whether arguments can be added without overflow */
+int uadd_ok(unsigned x, unsigned y);
+```
+
+> 如果参数`x`和`y`相加不会产生溢出，这个函数就返回 1。
+>
+> ```C
+> unsigned sum = x + y;
+> return sum >= x;
+> ```
+
+#### 无符号数求反
+
+对满足`0 ≦ x < 2ʷ`的任意`x`，其`w`位无符号**逆元**`-`由下式给出：  
+![unsigned_add_inverse_element](src/ch2/uadd_inv.svg)
+
+**推导** 补码加法
