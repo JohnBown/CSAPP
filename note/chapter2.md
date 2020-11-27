@@ -355,10 +355,10 @@ int fun2(unsigned word){
 **截断**
 
 无符号数的截断：  
-![unsigned_truncating](src/ch2/unsign_trunc.svg)
+![unsigned_truncating](src/ch2/u_trunc.svg)
 
 补码数字的截断：  
-![signed_truncating](src/ch2/sign_trunc.svg)
+![signed_truncating](src/ch2/t_trunc.svg)
 
 ```C
 int x = 53191;
@@ -380,14 +380,13 @@ int y = sx;             /* -12345 */
 |                                 | 无符号加法                                           | 补码加法                                                                                                                                                           |
 | :-----------------------------: | :--------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |        对满足的`x`和`y`         | `0 ≦ x,y < 2ʷ`                                       | `-2ʷ⁻¹ ≦ x,y < 2ʷ⁻¹-1`                                                                                                                                             |
-|              公式               | ![unsigned_addition](src/ch2/unsign_add.svg)         | ![signed_addition](src/ch2/sign_add.svg)                                                                                                                           |
-|             关系图              | ![uadd_ovf](src/ch2/uadd_ovf.svg)                    | ![tadd_ovf](src/ch2/tadd-ovf.svg)                                                                                                                                  |
+|              公式               | ![unsigned_addition](src/ch2/uadd.svg)               | ![signed_addition](src/ch2/tadd.svg)                                                                                                                               |
+|             关系图              | ![uadd_ovf](src/ch2/uadd_ovf.svg)                    | ![tadd_ovf](src/ch2/tadd_ovf.svg)                                                                                                                                  |
 | 加法溢出检测，<br>令`s = x+y`。 | 当且仅当`s < x`（或者等价地`s < y`）时，发生了溢出。 | 当且仅当`x > 0, y > 0`，但`s ≦ 0`时，计算`s`发生了正溢出（positive overflow）。<br>当且仅当`x < 0, y < 0`，但`s ≧ 0`时，计算`s`发生了负溢出（negative overflow）。 |
 
-**练习题 2.27** 写出如下原型函数：
+**练习题 2.27** 写出具有如下原型的函数：
 
 ```C
-/* Determine whether arguments can be added without overflow */
 int uadd_ok(unsigned x, unsigned y);
 ```
 
@@ -400,7 +399,70 @@ int uadd_ok(unsigned x, unsigned y);
 
 #### 无符号数求反
 
-对满足`0 ≦ x < 2ʷ`的任意`x`，其`w`位无符号**逆元**`-`由下式给出：  
+对满足`0 ≦ x < 2ʷ`的任意`x`，其无符号加法**逆元**：  
 ![unsigned_add_inverse_element](src/ch2/uadd_inv.svg)
 
-**推导** 补码加法
+> **推导** 补码加法  
+> ![proof_5/eq5_1](src/ch2/pof_5/eq5_1.svg)  
+> 定义`z = x + y`，`z' = z mod 2^w`，`z'' = U2T(z')`。分四种情况进行讨论：
+>
+> 1. 当`-2ʷ ≦ z < -2ʷ⁻¹`时，`0 ≦ z' = z + 2ʷ < 2ʷ⁻¹`，`z'' = z' = x + y + 2ʷ`。_(负溢出)_
+> 2. 当`-2ʷ⁻¹ ≦ z < 0`时，`2ʷ⁻¹ ≦ z' = z + 2ʷ < 2ʷ`，`z'' = z' - 2ʷ = x + y`。
+> 3. 当`0 ≦ z < 2ʷ⁻¹`时，`0 ≦ z' = z < 2ʷ⁻¹`，`z'' = z = x + y`。
+> 4. 当`2ʷ⁻¹ ≦ z < 2ʷ`时，`2ʷ⁻¹ ≦ z' = z < 2ʷ`，`z'' = z' - 2ʷ = x + y - 2ʷ`。_（正溢出）_
+>
+> 为啥`z'' = z' - 2ʷ`而不是`-2ʷ⁻¹`，因为`w-1`位权为 1 时，补码和无符号相差 2 个`2ʷ⁻¹`也就是`2ʷ`。
+
+**练习题 2.30** 写出具有如下原型的函数：
+
+```C
+int tadd_ok(int x, int y);
+```
+
+> 如果参数`x`和`y`相加不会产生溢出，这个函数就返回 1。
+>
+> ```C
+> int sum = x + y;
+> int neg_ovf = x < 0 && y < 0 && sum >= 0;   //TODO: 边界0
+> int pos_ovf = x >= 0 && y >= 0 && sum < 0;
+> return !neg_ovf && !pos_ovf;
+> ```
+
+**练习题 2.32** 分析`tsub_ok()`代码，`x`和`y`取什么值时，会产生错误结果。
+
+```C
+int tsub_ok(int x, int y) {
+    return tadd_ok(x, -y);
+}
+```
+
+> 考虑`x - y`，当`y = TMin`时，`tadd_ok(x, -y) -> tadd_ok(x, y)`，`y < 0`，所以当`x < 0`，发生负溢出。  
+> 实际上`x - TMin == x + |TMin|`，`|TMin| > 0`，所以当`x > 0`时，发生正溢出，结果恰恰相反。
+
+#### 补码的非
+
+对满足`TMin ≦ x ≦ TMax`的`x`，其补码非：  
+![signed_add_inverse_element](src/ch2/tadd_inv.svg)
+
+> **推导** `TMin + TMin = -2ʷ⁻¹ + (-2ʷ⁻¹) = -2ʷ`，这将导致负溢出，因此`TMin + TMin = -2ʷ + 2ʷ = 0`是自己的加法逆元。
+
+**补码非位级算法**
+
+**方法一** 对每一位求补，再对结果加 1。在 C 语言中，对任意整数值`x`，计算表达式`-x`和`~x+1`得到对结果完全一样。
+
+|       x        |       ~x       |    incr(~x)    |
+| :------------: | :------------: | :------------: |
+| [0101]&emsp;5  | [1010]&emsp;-6 | [1011]&emsp;-5 |
+| [0111]&emsp;7  | [1000]&emsp;-8 | [1001]&emsp;-7 |
+| [1100]&emsp;-4 | [0011]&emsp;3  | [0100]&emsp;4  |
+| [0000]&emsp;0  | [1111]&emsp;-1 | [0000]&emsp;0  |
+| [1000]&emsp;8  | [0111]&emsp;7  | [1000]&emsp;-8 |
+
+**方法二** 假设`k`是最右边对 1 的位置，对`k`左边对所有位取反。
+
+|       x        |       -x       |
+| :------------: | :------------: |
+| [1100]&emsp;-4 | [0100]&emsp;4  |
+| [1000]&emsp;-8 | [1000]&emsp;-8 |
+| [0101]&emsp;5  | [1011]&emsp;-5 |
+| [0111]&emsp;7  | [1001]&emsp;-7 |
