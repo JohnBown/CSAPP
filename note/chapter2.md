@@ -485,3 +485,87 @@ int tsub_ok(int x, int y) {
 > ![eq6_3.svg](src/ch2/pof_6/eq6_3.svg)  
 > 联立得出：  
 > ![eq6_3.svg](src/ch2/pof_6/eq6_4.svg)
+
+**练习题 2.36** 对于数据类型为 32 位的情况，设计`tmult_ok`函数，使用 64 位精度的数据类型`int64_t`，而不使用除法。
+
+> ```C
+> int tmult_ok(int x, int y) {
+>     /* Compute product without overflow */
+>     int64_t pll = (int64_t) x * y;
+>     /* See if casting to int preserves value */
+>     return pll == (int) pll;
+> }
+> ```
+>
+> 对比`int64_t pll = (int64_t) x * y;`和`int64_t pll = x * y;`
+
+**练习题 2.37** 修改 XDR 代码中的漏洞 _(Page: 69)_
+
+```C
+/* original wrong version */
+void *result = malloc(ele_cnt * ele_size);
+```
+
+```C
+/* change does not help at all */
+uint64_t asize = ele_cnt * (uint64_t) ele_size;
+void *result = malloc(asize);
+```
+
+> ```C
+> /* correct version */
+> uint64_t required_size = ele_cnt * (uint64_t) ele_size;
+> size_t request_size = (size_t) required_size;
+> if(request_size != required size)
+>     /* Overflow must have occurred. Abort operation */
+>     return NULL;
+> void *result = malloc(request_size);
+> ```
+
+#### 乘以常数
+
+绝大多数机器，整数乘法指令相当慢，需要 10 个或者更多的时钟周期。然而其他整数运算（例如加法、减法、位级运算和移位）只需要 1 个时钟周期。因此，编译器试着用移位和加法的组合来代替乘以常数因子的乘法来进行优化。
+
+**乘 2 的幂**  
+设`x`为位模式![x](src/ch2/x.svg)表示的无符号整数。对任何`k ≧ 0`，`x2ᵏ`的`w + k`位无符号表示为：
+
+![x_kbits](src/ch2/x_kbits.svg)
+
+丢弃高`k`位，得到 ![x_cutkbit](src/ch2/x_cutkbit.svg)
+
+> **推导** > ![eq7_1](src/ch2/pof_7/eq7_1.svg)
+
+**乘常数 K**  
+对于某常数`K`的表达式`x×K`生成的代码，编译器会将`K`的二进制表示为一组 0 和 1 交替的序列`[(0...0)(1...1)(0...0)(1...0)]`。例如：14 可以写成`[(0...0)(111)(0)]`，`n`到`m`有一组连续的 1，`n=3, m=1`。可以用两种形式来计算乘积：
+
+1. `(x<<n) + (x<<(n-1) + ... + (x<<m))`
+2. `(x<<(n+1)) - (x<<m)`
+
+把每个这样连续的 1 的结果加起来，不用做任何乘法，就能计算出`x×K`。
+
+**练习题 2.39** 当 n 为最高有效位时，B 表达式为
+
+> `-(x<<m)`
+
+#### 除以 2 的幂
+
+|       | 向下舍入                   | 向上舍入                   |
+| :---: | :------------------------- | :------------------------- |
+| `a'=` | `⌊a⌋`                      | `⌈a⌉`                      |
+| 范围  | `a' ≦ a < a'+1`            | `a'-1 < a ≦ a'`            |
+| 例子  | `⌊3.14⌋=3`<br>`⌊-3.14⌋=-4` | `⌈3.14⌉=4`<br>`⌈-3.14⌉=-3` |
+
+整数除法总是**舍入到零**。对于`x ≧ 0`和`y > 0`，结果会是`⌊x/y⌋`，而对于`x < 0`和`y > 0`，结果会是`⌈x/y⌉`。也就是，它将向下舍入一个正值，而向上舍入一个负值。
+
+**无符号除 2 的幂**  
+设`x`为位模式 ![x](src/ch2/x.svg)表示的无符号整数，`0 ≦ k < w`。设`x'`为`w`位到`k`位位表示 ![x_w2k](src/ch2/x_w2k.svg)，而`x''`为`k`位位表示 ![x_k20](src/ch2/x_k20.svg)。`x = 2ᵏx' + x''`，而`0 ≦ x'' < 2ᵏ`。由此，可得`⌊x/2ᵏ⌋ = x'`。逻辑右移`k`位
+
+![x_unsign_right_shift](src/ch2/x_urshift.svg)
+
+**补码除 2 的幂，向下舍入**  
+设`x`为位模式 ![x](src/ch2/x.svg)表示的补码整数，`0 ≦ k < w`。设`x'`为`w`位到`k`位位表示 ![x_w2k](src/ch2/x_w2k.svg)，而`x''`为`k`位位表示 ![x_k20](src/ch2/x_k20.svg)。`x = 2ᵏx' + x''`，而`0 ≦ x'' < 2ᵏ`。由此，可得`⌊x/2ᵏ⌋ = x'`。算术右移`k`位
+
+![x_sign_right_shift](src/ch2/x_trshift.svg)
+
+**补码除 2 的幂，向上舍入**  
+**偏置（biasing）** 修正不合适的舍入。设补码值`x`和无符号值`k`，且`0 ≦ k < w`，则当执行算术右移时，表达式`(x + (1<<k)-1) >> k`产生数值`⌈x/2ᵏ⌉`。
