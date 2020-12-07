@@ -605,7 +605,7 @@ void *result = malloc(asize);
 
 ## 浮点数
 
-考虑形如![binary_x](src/ch2/b_x.svg)，所表示的数`b`  
+考虑形如 ![binary_x](src/ch2/b_x.svg)，所表示的数`b`  
 ![binary_definition](src/ch2/b_def.svg)  
 形如`0.11···1`的数表示刚好小于 1 的数，表达式写做`1.0-ε`。考虑有限长度的编码，二进制小数仅能表示形如`x×2ʸ`的数，其他数可以被近似表示，增加二进制位数可以提高表示精度。
 
