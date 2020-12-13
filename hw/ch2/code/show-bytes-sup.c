@@ -47,4 +47,5 @@ int main(int argc, char *argv[])
     }
 
     test_show_bytes(val);
+    return 0;
 }

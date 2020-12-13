@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 unsigned replace_byte(unsigned x, int i, unsigned char b)
 {
@@ -13,6 +14,8 @@ unsigned replace_byte(unsigned x, int i, unsigned char b)
 
 int main(int argc, char *argv[])
 {
-    printf("replace_byte(0x12345678, 2, 0xAB) --> 0x%X\n", replace_byte(0x12345678, 2, 0xAB));
-    printf("replace_byte(0x12345678, 0, 0xAB) --> 0x%X\n", replace_byte(0x12345678, 0, 0xAB));
+    assert(replace_byte(0x12345678, 2, 0xAB) == 0x12AB5678);
+    assert(replace_byte(0x12345678, 0, 0xAB) == 0x123456AB);
+
+    return 0;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 int main(int argc, char *argv[])
 {
@@ -7,5 +8,6 @@ int main(int argc, char *argv[])
     size_t y = 0x76543210;
 
     size_t res = (x & msk) + (y & ~msk);
-    printf("%X\n", res);
+    assert(res == 0x765432EF);
+    return 0;
 }
