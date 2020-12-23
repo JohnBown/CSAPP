@@ -6,35 +6,42 @@ float u2f(int x)
     return *(float *)&x;
 }
 
+unsigned f2u(float f)
+{
+    return *(unsigned *)&f;
+}
+
 float fpwr2(int x)
 {
     /* Result exponent and fraction */
     unsigned exp, frac;
     unsigned u;
 
-    if (x <)
+    int Bias = (pow(2, 8 - 1) - 1);
+
+    if (x < 1 - Bias - 23) // -149
     {
         /* Too small. Return 0.0 */
-        exp = ;
-        frac = ;
+        exp = 0;
+        frac = 0;
     }
-    else if (x <)
+    else if (x < 1 - Bias) // -126
     {
         /* Denormalized result */
-        exp = ;
-        frac = ;
+        exp = 1;
+        frac = (1 << 23) >> (-(x + Bias - 1));
     }
-    else if (x <)
+    else if (x < 1 + (pow(2, 8) - 2) - Bias) // 128
     {
         /* Normalized result. */
-        exp = ;
-        frac = ;
+        exp = x + Bias;
+        frac = 0;
     }
     else
     {
         /* Too big. Return +∞ */
-        exp = ;
-        frac = ;
+        exp = 0xFF;
+        frac = 0;
     }
 
     /* Pack exp and frac into 32 bits */
