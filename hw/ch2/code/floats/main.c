@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "float-negate.h"
+#include "float-absval.h"
 
 unsigned f2u(float f)
 {
@@ -36,10 +37,12 @@ int main(int argc, char *argv[])
         if (isnan(f))
         {
             assert(float_negate(r) == r);
+            assert(float_absval(r) == r);
         }
         else
         {
             assert(u2f(float_negate(r)) == -f);
+            assert(u2f(float_absval(r)) == fabsf(f));
         }
 
         printf("\n");
