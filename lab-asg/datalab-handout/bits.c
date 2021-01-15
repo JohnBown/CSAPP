@@ -143,7 +143,7 @@ NOTES:
  */
 int bitXor(int x, int y)
 {
-  return ~(x & y) & ~(~x & ~y);
+    return ~(x & y) & ~(~x & ~y);
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -153,7 +153,7 @@ int bitXor(int x, int y)
  */
 int tmin(void)
 {
-  return 1 << 31;
+    return 1 << 31;
 }
 //2
 /*
@@ -165,8 +165,8 @@ int tmin(void)
  */
 int isTmax(int x)
 {
-  return !((~x + ~x) | !~x);
-  // return !(!(~x) | ~((x + 1) ^ x));
+    return !((~x + ~x) | !~x);
+    // return !(!(~x) | ~((x + 1) ^ x));
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -178,7 +178,11 @@ int isTmax(int x)
  */
 int allOddBits(int x)
 {
-  return 2;
+    x &= x >> 16;
+    x &= x >> 8;
+    x &= x >> 4;
+    x &= x >> 2;
+    return (x & 0x2) >> 1;
 }
 /* 
  * negate - return -x 
@@ -189,7 +193,7 @@ int allOddBits(int x)
  */
 int negate(int x)
 {
-  return 2;
+    return ~x + 1;
 }
 //3
 /* 
@@ -203,7 +207,21 @@ int negate(int x)
  */
 int isAsciiDigit(int x)
 {
-  return 2;
+    /**
+     * vecx = [..., x3, x2, x1, x0], x in [0x30, 0x39]
+     *  x3x2    00  01  10  11
+     *  x1x0 00 1   1   1   0
+     *       01 1   1   0   0
+     *       10 1   1   0   0
+     *       11 1   1   0   0
+     * reduce Karnaugh map: ẋ3 + x3ẋ2ẋ1
+     * last use De Morgan's laws
+    */
+    int hi_is_0x3 = !((x >> 4) ^ 0x3);
+    int x3 = (x & 0x8) >> 3;
+    int x2 = (x & 0x4) >> 2;
+    int x1 = (x & 0x2) >> 1;
+    return hi_is_0x3 & ((!x3) | (x3 & !(x2 | x1)));
 }
 /* 
  * conditional - same as x ? y : z 
@@ -214,7 +232,9 @@ int isAsciiDigit(int x)
  */
 int conditional(int x, int y, int z)
 {
-  return 2;
+    x = !x; //to ignore warning
+    x = ~x + 1;
+    return (y & ~x) | (z & x);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -225,7 +245,10 @@ int conditional(int x, int y, int z)
  */
 int isLessOrEqual(int x, int y)
 {
-  return 2;
+    int sx = (x >> 31) & 0x1;
+    int sy = (y >> 31) & 0x1;
+    int sxy = ((x + (~y) + 1) >> 31) & 0x1;
+    return (!(x ^ y)) | ((!(sx ^ sy)) & sxy) | ((sx ^ sy) & sx);
 }
 //4
 /* 
@@ -238,7 +261,12 @@ int isLessOrEqual(int x, int y)
  */
 int logicalNeg(int x)
 {
-  return 2;
+    x |= x >> 16;
+    x |= x >> 8;
+    x |= x >> 4;
+    x |= x >> 2;
+    x |= x >> 1;
+    return (~x) & 0x1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -254,7 +282,7 @@ int logicalNeg(int x)
  */
 int howManyBits(int x)
 {
-  return 0;
+    return 0;
 }
 //float
 /* 
@@ -270,7 +298,7 @@ int howManyBits(int x)
  */
 unsigned floatScale2(unsigned uf)
 {
-  return 2;
+    return 2;
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -286,7 +314,7 @@ unsigned floatScale2(unsigned uf)
  */
 int floatFloat2Int(unsigned uf)
 {
-  return 2;
+    return 2;
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -303,5 +331,5 @@ int floatFloat2Int(unsigned uf)
  */
 unsigned floatPower2(int x)
 {
-  return 2;
+    return 2;
 }
