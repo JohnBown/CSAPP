@@ -373,13 +373,9 @@ int floatFloat2Int(unsigned uf)
         E = exp - bias;
         M = frac | 0x800000;
         if (E > 23)
-        {
             num = M << (E - 23);
-        }
         else
-        {
             num = M >> (23 - E);
-        }
     }
 
     return sign ? -num : num;
