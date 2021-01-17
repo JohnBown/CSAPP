@@ -282,7 +282,36 @@ int logicalNeg(int x)
  */
 int howManyBits(int x)
 {
-    return 0;
+    int sig_x, mask, n, m16, m8, m4, m2, m1;
+
+    sig_x = x & (1 << 31);
+    mask = sig_x >> 31; //if 0..., mask = 11..1; or 1..., mask = 00..0
+    x = (x & ~mask) | (~x & mask);
+
+    n = 0;
+
+    m16 = !(x >> 16) + (~1 + 1);
+    n += m16 & 16;
+    x = (x & ~m16) | ((x >> 16) & m16);
+
+    m8 = !(x >> 8) + (~1 + 1);
+    n += m8 & 8;
+    x = (x & ~m8) | ((x >> 8) & m8);
+
+    m4 = !(x >> 4) + (~1 + 1);
+    n += m4 & 4;
+    x = (x & ~m4) | ((x >> 4) & m4);
+
+    m2 = !(x >> 2) + (~1 + 1);
+    n += m2 & 2;
+    x = (x & ~m2) | ((x >> 2) & m2);
+
+    m1 = !(x >> 1) + (~1 + 1);
+    n += m1 & 1;
+    x = (x & ~m1) | ((x >> 1) & m1);
+
+    n += x & 0x1;
+    return n + 1;
 }
 //float
 /* 
@@ -298,7 +327,19 @@ int howManyBits(int x)
  */
 unsigned floatScale2(unsigned uf)
 {
-    return 2;
+    unsigned sign = (uf >> 31) & 0x1;
+    unsigned exp = (uf >> 23) & 0xFF;
+    unsigned frac = uf & 0x7FFFFF;
+    unsigned rest = uf & 0x7FFFFFFF;
+
+    if (exp == 0x0)
+        return (sign << 31) | rest << 1;
+    else if (exp == 0xFF)
+        return uf;
+    else if (exp + 1 == 0xFF)
+        return (sign << 31) | (0xFF << 23);
+    else
+        return (sign << 31) | ((exp + 1) << 23) | frac;
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -314,7 +355,34 @@ unsigned floatScale2(unsigned uf)
  */
 int floatFloat2Int(unsigned uf)
 {
-    return 2;
+    unsigned sign = (uf >> 31) & 0x1;
+    unsigned exp = (uf >> 23) & 0xFF;
+    unsigned frac = uf & 0x7FFFFF;
+    unsigned bias = 0x7F;
+
+    int num;
+    unsigned E;
+    unsigned M;
+
+    if (exp >= 0 && exp < 0 + bias)
+        num = 0;
+    else if (exp >= 31 + bias)
+        num = 0x80000000;
+    else
+    {
+        E = exp - bias;
+        M = frac | 0x800000;
+        if (E > 23)
+        {
+            num = M << (E - 23);
+        }
+        else
+        {
+            num = M >> (23 - E);
+        }
+    }
+
+    return sign ? -num : num;
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -331,5 +399,13 @@ int floatFloat2Int(unsigned uf)
  */
 unsigned floatPower2(int x)
 {
-    return 2;
+    unsigned bias = 0x7F;
+    int E = x + bias;
+
+    if (E < 0)
+        return 0;
+    else if (E < 0xFF)
+        return E << 23;
+    else
+        return 0xFF << 23;
 }
