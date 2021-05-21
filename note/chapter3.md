@@ -189,7 +189,7 @@ dest_t *dp;
 
 ### 算术和逻辑操作
 
-![int_arith_opt](src/ch3/int_arith_opt.png)
+![int_arith_opt](src/ch3/int_arith_opt.png =100x20)
 
 **加载有效地址(load effective address)**
 
