@@ -73,7 +73,9 @@ C 语言数据类型在 x86-64 中的大小，64 位机器，指针长为 8 字�
 - 后缀`l`表示 4 字节整数和 8 字节双精度浮点数，无歧义，浮点数用不同指令和寄存器
 
 **通用目的寄存器**
-![reg_table](src/ch3/reg_table.png)
+
+<img src="src/ch3/reg_table.png" width="600">
+<!-- ![reg_table](src/ch3/reg_table.png) -->
 
 发展过程
 
@@ -90,7 +92,8 @@ C 语言数据类型在 x86-64 中的大小，64 位机器，指针长为 8 字�
 
 三种操作数类型：立即数(Imm)、寄存器值(Reg)和内存值(Mem)
 
-![operand_forms](src/ch3/operand_forms.png)
+<img src="src/ch3/operand_forms.png" width="700">
+<!-- ![operand_forms](src/ch3/operand_forms.png) -->
 
 ### 数据传输指令
 
@@ -98,7 +101,8 @@ C 语言数据类型在 x86-64 中的大小，64 位机器，指针长为 8 字�
 
 **简单数据传输指令:** `movb`, `movw`, `movl`, `movq`和`movabsq`
 
-![mov](src/ch3/mov.png)
+<img src="src/ch3/mov.png" width="500">
+<!-- ![mov](src/ch3/mov.png) -->
 
 - 源操作数指定的值是立即数，存储在寄存器或者内存中；目的操作数指定位置，寄存器或内存地址
 - x86-64 限制：`mov`指令两个操作数**不能都指向内存**位置
@@ -119,7 +123,8 @@ movq $-1, %rax                      %rax = FFFFFFFFFFFFFFFF
 
 **零扩展数据传输指令** `movzbw`, `movzbl`, `movzwl`, `movzbq`和`movzwq`
 
-![movz](src/ch3/movz.png)
+<img src="src/ch3/movz.png" width="500">
+<!-- ![movz](src/ch3/movz.png) -->
 
 - 把目的剩余字节填充 0
 - 后缀第一个字符指定源大小，第二个指令目的大小，显然只考虑目的大于源的情况
@@ -127,7 +132,8 @@ movq $-1, %rax                      %rax = FFFFFFFFFFFFFFFF
 
 **符号扩展数据传输指令** `movsbw`, `movsbl`, `movswl`, `movsbq`, `movswq`, `movslq`和`cltq`
 
-![movs](src/ch3/movs.png)
+<img src="src/ch3/movs.png" width="500">
+<!-- ![movs](src/ch3/movs.png) -->
 
 - 把目的剩余字节通过符号扩展来填充
 - `cltq`(change long word to quad)与`movslq %eax, %rax`形式一样，编码更加紧凑
@@ -175,9 +181,12 @@ dest_t *dp;
 |     char      |     short     |                    <br>                    |
 
 **入栈出栈指令** `push`和`pop`
-![push_pop_instr](src/ch3/push_pop_instr.png)
 
-![stack](src/ch3/stack.svg)
+<img src="src/ch3/push_pop_instr.png" width="400">
+<!-- ![push_pop_instr](src/ch3/push_pop_instr.png) -->
+
+<img src="src/ch3/stack.svg" width="500">
+<!-- ![stack](src/ch3/stack.svg) -->
 
 - 栈向下增长，栈顶元素的地址是所有栈中元素地址中最低的
 - `pushq %rbp`指令等价
@@ -189,7 +198,8 @@ dest_t *dp;
 
 ### 算术和逻辑操作
 
-![int_arith_opt](src/ch3/int_arith_opt.png =100x20)
+<!-- ![int_arith_opt](src/ch3/int_arith_opt.png =100x20) -->
+<img src="src/ch3/int_arith_opt.png" width="500">
 
 **加载有效地址(load effective address)**
 
